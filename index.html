@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern FLAMES Game</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+      overflow:hidden;
+      background:linear-gradient(-45deg,#ff4d6d,#ff758c,#9b5de5,#6a5cff);
+      background-size:400% 400%;
+      animation:bgMove 12s ease infinite;
+      position:relative;
+    }
+
+    @keyframes bgMove{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+
+    .heart{
+      position:absolute;
+      font-size:22px;
+      opacity:.15;
+      animation:float 10s linear infinite;
+      user-select:none;
+    }
+
+    @keyframes float{
+      from{
+        transform:translateY(100vh) rotate(0deg);
+      }
+      to{
+        transform:translateY(-120px) rotate(360deg);
+      }
+    }
+
+    .container{
+      width:100%;
+      max-width:420px;
+      padding:30px;
+      border-radius:28px;
+      background:rgba(255,255,255,.15);
+      backdrop-filter:blur(18px);
+      border:1px solid rgba(255,255,255,.25);
+      box-shadow:0 20px 40px rgba(0,0,0,.25);
+      text-align:center;
+      color:white;
+      animation:pop .7s ease;
+    }
+
+    @keyframes pop{
+      from{opacity:0; transform:scale(.85);}
+      to{opacity:1; transform:scale(1);}
+    }
+
+    h1{
+      font-size:2rem;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .subtitle{
+      opacity:.9;
+      font-size:.95rem;
+      margin-bottom:24px;
+    }
+
+    .input-box{
+      margin-bottom:15px;
+    }
+
+    input{
+      width:100%;
+      padding:15px 18px;
+      border:none;
+      outline:none;
+      border-radius:14px;
+      background:rgba(255,255,255,.18);
+      color:white;
+      font-size:16px;
+      transition:.3s;
+    }
+
+    input::placeholder{
+      color:#f3f3f3;
+    }
+
+    input:focus{
+      background:rgba(255,255,255,.28);
+      transform:scale(1.02);
+      box-shadow:0 0 15px rgba(255,255,255,.25);
+    }
+
+    button{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:14px;
+      margin-top:10px;
+      background:white;
+      color:#ff2d75;
+      font-size:17px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    button:hover{
+      transform:translateY(-3px);
+      box-shadow:0 10px 25px rgba(255,255,255,.35);
+    }
+
+    #result{
+      margin-top:22px;
+      padding:20px;
+      border-radius:18px;
+      background:rgba(255,255,255,.18);
+      min-height:120px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      transition:.3s;
+    }
+
+    .letter{
+      font-size:58px;
+      font-weight:700;
+      text-shadow:0 0 18px rgba(255,255,255,.8);
+      animation:bounce 1s infinite;
+    }
+
+    @keyframes bounce{
+      50%{transform:translateY(-8px);}
+    }
+
+    .emoji{
+      font-size:34px;
+    }
+
+    .meaning{
+      font-size:20px;
+      font-weight:600;
+    }
+
+    .footer{
+      margin-top:18px;
+      font-size:12px;
+      opacity:.8;
+    }
+
+    @media(max-width:480px){
+      .container{
+        padding:24px;
+      }
+
+      h1{
+        font-size:1.7rem;
+      }
+
+      .letter{
+        font-size:48px;
+      }
+
+      .meaning{
+        font-size:18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="heart" style="left:8%; animation-delay:0s;">?</div>
+  <div class="heart" style="left:25%; animation-delay:2s;">??</div>
+  <div class="heart" style="left:42%; animation-delay:4s;">??</div>
+  <div class="heart" style="left:60%; animation-delay:1s;">??</div>
+  <div class="heart" style="left:82%; animation-delay:5s;">??</div>
+
+  <div class="container">
+
+    <h1>FLAMES</h1>
+    <p class="subtitle">Discover your relationship instantly</p>
+
+    <div class="input-box">
+      <input type="text" id="name1" placeholder="Enter First Name">
+    </div>
+
+    <div class="input-box">
+      <input type="text" id="name2" placeholder="Enter Second Name">
+    </div>
+
+    <button onclick="playFlames()">Calculate FLAMES</button>
+
+    <div id="result">
+      <div class="emoji">?</div>
+      <div class="meaning">Enter two names</div>
+    </div>
+
+    <div class="footer">Thank you for your visit.</div>
+
+  </div>
+
+<script>
+function playFlames(){
+
+  let s1=document.getElementById('name1').value.toUpperCase().replace(/\s/g,'');
+  let s2=document.getElementById('name2').value.toUpperCase().replace(/\s/g,'');
+
+  const result=document.getElementById('result');
+
+  if(s1===''||s2===''){
+    result.innerHTML=`
+      <div class="emoji">??</div>
+      <div class="meaning">Please enter both names</div>`;
+    return;
+  }
+
+  let l1=s1.split('');
+  let l2=s2.split('');
+
+  for(let ch of [...l1]){
+    let index=l2.indexOf(ch);
+    if(index!==-1){
+      l1.splice(l1.indexOf(ch),1);
+      l2.splice(index,1);
+    }
+  }
+
+  let count=l1.length+l2.length;
+
+  let flames=['F','L','A','M','E','S'];
+  let k=0;
+
+  while(flames.length>1){
+    k=(k+count-1)%flames.length;
+    flames.splice(k,1);
+  }
+
+  const data={
+    F:{text:'Friends',emoji:'??'},
+    L:{text:'Love',emoji:'??'},
+    A:{text:'Affection',emoji:'??'},
+    M:{text:'Marriage',emoji:'??'},
+    E:{text:'Enemies',emoji:'?'},
+    S:{text:'Siblings',emoji:'????????'}
+  };
+
+  const r=data[flames[0]];
+
+  result.innerHTML=`
+    <div class="letter">${flames[0]}</div>
+    <div class="meaning">${r.text}</div>`;
+}
+</script>
+
+</body>
+</html>
