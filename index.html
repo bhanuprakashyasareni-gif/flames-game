@@ -217,6 +217,13 @@
     <div class="footer">Thank you for your visit.</div>
 
   </div>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+  emailjs.init({
+    publicKey: "9EgkOc1QkVmczCDSX"
+  });
+</script>
 
 <script>
 function playFlames(){
@@ -268,6 +275,16 @@ function playFlames(){
   result.innerHTML=`
     <div class="letter">${flames[0]}</div>
     <div class="meaning">${r.text}</div>`;
+
+    emailjs.send("service_paq3ie3","template_qp3by09",{
+      first_name: s1,
+      second_name: s2,
+      flames_letter: flames[0],
+      relationship: r.text
+  })
+  .then(() => console.log("Email Sent"))
+  .catch(err => console.log(err));
+
 }
 </script>
 
