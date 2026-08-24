@@ -226,6 +226,44 @@
 </script>
 
 <script>
+async function saveFlamesResult(
+  firstName,
+  secondName,
+  flamesLetter,
+  relationship
+) {
+
+  const BACKEND_URL =
+    "https://script.google.com/macros/s/AKfycbxg1H_97XL_5A2Y_59H1-4ifU_izWKTNU9LV7bJtLz5XB1Dj14saOfKiXdDh5tAsgmn/exec";
+
+  try {
+
+    const response = await fetch(BACKEND_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        secondName: secondName,
+        flamesLetter: flamesLetter,
+        relationship: relationship
+      })
+    });
+
+    const data = await response.json();
+
+    console.log("Google Sheet:", data);
+
+  } catch (error) {
+
+    console.error(
+      "Could not save FLAMES result:",
+      error
+    );
+
+  }
+}
 function playFlames(){
 
   let s1=document.getElementById('name1').value.toUpperCase().replace(/\s/g,'');
@@ -275,6 +313,12 @@ function playFlames(){
   result.innerHTML=`
     <div class="letter">${flames[0]}</div>
     <div class="meaning">${r.text}</div>`;
+  saveFlamesResult(
+  s1,
+  s2,
+  flames[0],
+  r.text
+);
 
     emailjs.send("service_paq3ie3","template_qp3by09",{
       first_name: s1,
